@@ -1,0 +1,1143 @@
+{
+ "title": "Cup Catch",
+ "premise": "A stylized character notices a falling cup, shifts their weight, catches it, and reacts.",
+ "fps": 24,
+ "resolution": [
+  1920,
+  1080
+ ],
+ "duration": 15.0,
+ "set": {
+  "template": "cafe_street",
+  "params": {
+   "time": "dusk"
+  }
+ },
+ "post": {
+  "bloom": 0.3,
+  "bloom_threshold": 0.9
+ },
+ "time_remap": [
+  [
+   0.0,
+   1.0
+  ],
+  [
+   2.45,
+   1.0
+  ],
+  [
+   2.8,
+   0.1
+  ],
+  [
+   6.0,
+   0.1
+  ],
+  [
+   6.6,
+   1.0
+  ]
+ ],
+ "liquid": "#5a3220",
+ "cast": {
+  "mia": {
+   "top": "#d8352c",
+   "hat": "beanie",
+   "hat_color": "#f2c12e",
+   "start": {
+    "pos": [
+     0.0,
+     0.0
+    ],
+    "facing": 0.0,
+    "width": 0.2
+   }
+  }
+ },
+ "props": {
+  "table": {
+   "type": "bistro_table",
+   "pos": [
+    0.45,
+    0.1,
+    0.0
+   ],
+   "height": 0.72,
+   "top_r": 0.3
+  },
+  "cup": {
+   "type": "mug",
+   "pos": [
+    0.2822,
+    -0.1535,
+    0.72
+   ],
+   "motion": [
+    {
+     "t": 0.0,
+     "do": "held",
+     "char": "mia",
+     "side": "R"
+    },
+    {
+     "t": 1.45,
+     "do": "place",
+     "dur": 0.75,
+     "pos": [
+      0.2822,
+      -0.1535,
+      0.72
+     ],
+     "release": 0.2,
+     "arc": 0.05
+    },
+    {
+     "t": 2.4,
+     "do": "topple",
+     "dir": [
+      -0.552,
+      -0.834
+     ],
+     "nudge": 0.7,
+     "support": "table",
+     "release_deg": 55
+    },
+    {
+     "do": "catch",
+     "at_height": 0.58,
+     "char": "mia",
+     "side": "R",
+     "approach": 0.95,
+     "give": 0.0,
+     "give_dur": 0.35
+    }
+   ]
+  }
+ },
+ "performance": [
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 0.0,
+   "dur": 0.01,
+   "side": "R",
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.03,
+      0.27,
+      -0.16
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "grip",
+   "t": 0.0,
+   "dur": 0.01,
+   "side": "R",
+   "amount": 1.0
+  },
+  {
+   "char": "mia",
+   "do": "look",
+   "t": 0.0,
+   "dur": 0.01,
+   "target": [
+    6,
+    60,
+    9
+   ],
+   "speed": 0.6
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 0.0,
+   "dur": 0.01,
+   "set": "content"
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 0.3,
+   "dur": 0.7,
+   "side": "R",
+   "arc": 0.08,
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.05,
+      0.27,
+      0.12
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 0.8,
+   "dur": 0.3,
+   "set": {
+    "happy": 1.0,
+    "smile": 0.65
+   }
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 0.85,
+   "dur": 0.9,
+   "amount": 0.55
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 0.85,
+   "dur": 0.5,
+   "bone": "head",
+   "rot": [
+    -4,
+    -5,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 1.45,
+   "dur": 0.3,
+   "set": "content"
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 1.45,
+   "dur": 0.4,
+   "bone": "head",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 1.4,
+   "dur": 0.7,
+   "bone": "chest",
+   "rot": [
+    9,
+    3,
+    -4
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "shift",
+   "t": 1.4,
+   "dur": 0.6,
+   "to": 0.68
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 2.25,
+   "dur": 0.6,
+   "bone": "chest",
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "shift",
+   "t": 2.25,
+   "dur": 0.5,
+   "to": 0.5
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 2.5,
+   "dur": 0.5,
+   "side": "R",
+   "spec": {
+    "preset": "relaxed"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "look",
+   "t": 2.6,
+   "dur": 0.06,
+   "target": {
+    "object": "cup"
+   },
+   "speed": 3.0
+  },
+  {
+   "char": "mia",
+   "do": "blink",
+   "t": 2.6,
+   "dur": 0.12
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 2.62,
+   "dur": 0.12,
+   "set": "alarm",
+   "ease": "snap"
+  },
+  {
+   "char": "mia",
+   "do": "anticipate",
+   "t": 2.7,
+   "dur": 0.4,
+   "crouch": -0.012,
+   "lean": [
+    0.0,
+    -0.02,
+    0.0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "shift",
+   "t": 2.95,
+   "dur": 0.4,
+   "to": 0.08
+  },
+  {
+   "char": "mia",
+   "do": "step",
+   "t": 3.25,
+   "dur": 0.65,
+   "foot": "R",
+   "to": [
+    -0.05,
+    -0.36
+   ],
+   "facing": -60,
+   "lift": 0.05,
+   "weight_after": 0.6,
+   "shift_first": 0
+  },
+  {
+   "char": "mia",
+   "do": "hips",
+   "t": 3.35,
+   "dur": 0.85,
+   "crouch": 0.24,
+   "rot": [
+    10,
+    0,
+    -18
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 3.35,
+   "dur": 0.85,
+   "bone": "chest",
+   "rot": [
+    20,
+    0,
+    -8
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 3.35,
+   "dur": 0.85,
+   "bone": "spine",
+   "rot": [
+    4,
+    0,
+    -6
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 3.4,
+   "dur": 0.3,
+   "set": "focused"
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 3.3,
+   "dur": 0.7,
+   "side": "L",
+   "spec": {
+    "rel": "shoulder",
+    "pos": [
+     0.16,
+     -0.24,
+     -0.3
+    ],
+    "fingers": [
+     0.6,
+     -0.6,
+     -0.5
+    ],
+    "palm": [
+     0,
+     -0.3,
+     -1
+    ]
+   }
+  },
+  {
+   "char": "mia",
+   "do": "spread",
+   "t": 3.3,
+   "dur": 0.4,
+   "side": "L",
+   "amount": 0.8
+  },
+  {
+   "char": "mia",
+   "do": "grip",
+   "t": 3.3,
+   "dur": 0.4,
+   "side": "L",
+   "amount": 0.0
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": "catch:cup+0.3",
+   "dur": 0.6,
+   "set": "relieved"
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": "catch:cup+0.08",
+   "dur": 0.6,
+   "side": "R",
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.27,
+      0.33,
+      -0.14
+     ]
+    },
+    "orient": "upright"
+   },
+   "arc": 0.1
+  },
+  {
+   "char": "mia",
+   "do": "hips",
+   "t": "catch:cup+0.75",
+   "dur": 1.5,
+   "crouch": 0.0,
+   "rot": [
+    0,
+    0,
+    -6
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": "catch:cup+0.75",
+   "dur": 1.4,
+   "bone": [
+    "chest",
+    "spine"
+   ],
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 7.3,
+   "dur": 0.9,
+   "side": "L",
+   "spec": {
+    "preset": "relaxed"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "spread",
+   "t": "catch:cup+0.8",
+   "dur": 0.6,
+   "side": "L",
+   "amount": 0.0
+  },
+  {
+   "char": "mia",
+   "do": "grip",
+   "t": "catch:cup+0.8",
+   "dur": 0.6,
+   "side": "L",
+   "amount": 0.12
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 7.1,
+   "dur": 0.9,
+   "amount": -0.8
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 7.1,
+   "dur": 0.3,
+   "set": {
+    "relieved": 1.0,
+    "open": 0.15
+   }
+  },
+  {
+   "char": "mia",
+   "do": "step",
+   "t": 6.75,
+   "dur": 0.45,
+   "foot": "R",
+   "to": [
+    -0.08,
+    -0.24
+   ],
+   "facing": -45,
+   "lift": 0.035,
+   "weight_after": 0.5,
+   "shift_first": 0.15
+  },
+  {
+   "char": "mia",
+   "do": "step",
+   "t": 7.5,
+   "dur": 0.4,
+   "foot": "L",
+   "to": [
+    -0.2,
+    0.0
+   ],
+   "facing": -45,
+   "lift": 0.03,
+   "weight_after": 0.5,
+   "shift_first": 0.15
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 7.6,
+   "dur": 0.7,
+   "side": "R",
+   "arc": 0.06,
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.14,
+      0.3,
+      0.06
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 8.1,
+   "dur": 0.4,
+   "set": "proud"
+  },
+  {
+   "char": "mia",
+   "do": "look",
+   "t": 8.55,
+   "dur": 0.3,
+   "target": {
+    "camera": true
+   },
+   "speed": 1.2
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 8.6,
+   "dur": 0.4,
+   "bone": "head",
+   "rot": [
+    -3,
+    6,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 8.92,
+   "dur": 0.2,
+   "side": "R",
+   "ease": "snap",
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.17,
+      0.31,
+      0.21
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 9.4,
+   "dur": 0.06,
+   "set": "wince",
+   "ease": "snap"
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 9.4,
+   "dur": 0.09,
+   "bone": "head",
+   "rot": [
+    -10,
+    -8,
+    6
+   ],
+   "ease": "snap"
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 9.4,
+   "dur": 0.4,
+   "amount": 0.9
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 9.62,
+   "dur": 0.5,
+   "bone": "head",
+   "rot": [
+    2,
+    4,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 9.75,
+   "dur": 0.45,
+   "set": "sheepish"
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 9.8,
+   "dur": 0.6,
+   "side": "R",
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.13,
+      0.3,
+      0.0
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 11.05,
+   "dur": 0.2,
+   "set": "laugh"
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 11.1,
+   "dur": 0.32,
+   "amount": 0.55
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 11.45,
+   "dur": 0.32,
+   "amount": 0.5
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 11.8,
+   "dur": 0.32,
+   "amount": 0.45
+  },
+  {
+   "char": "mia",
+   "do": "shrug",
+   "t": 12.15,
+   "dur": 0.35,
+   "amount": 0.35
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 11.05,
+   "dur": 0.25,
+   "bone": "head",
+   "rot": [
+    -8,
+    4,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 11.3,
+   "dur": 1.2,
+   "bone": "head",
+   "rot": [
+    4,
+    2,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 11.05,
+   "dur": 0.3,
+   "bone": "chest",
+   "rot": [
+    -4,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 11.4,
+   "dur": 1.0,
+   "bone": "chest",
+   "rot": [
+    3,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 12.6,
+   "dur": 0.4,
+   "set": {
+    "content": 1.0,
+    "smile": 0.3
+   }
+  },
+  {
+   "char": "mia",
+   "do": "look",
+   "t": 12.8,
+   "dur": 0.5,
+   "target": [
+    2.6,
+    -0.4,
+    1.5
+   ],
+   "speed": 0.7
+  },
+  {
+   "char": "mia",
+   "do": "bend",
+   "t": 12.8,
+   "dur": 0.8,
+   "bone": [
+    "head",
+    "chest"
+   ],
+   "rot": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": 13.0,
+   "dur": 0.9,
+   "side": "R",
+   "arc": 0.1,
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.24,
+      0.34,
+      0.16
+     ]
+    },
+    "orient": "upright"
+   }
+  },
+  {
+   "char": "mia",
+   "do": "expr",
+   "t": 13.3,
+   "dur": 0.6,
+   "set": {
+    "happy": 0.9,
+    "smile": 0.8
+   }
+  },
+  {
+   "char": "mia",
+   "do": "look",
+   "t": "catch:cup+0.2",
+   "dur": 0.3,
+   "target": {
+    "object": "cup"
+   },
+   "speed": 1.0
+  },
+  {
+   "char": "mia",
+   "do": "hand",
+   "t": "catch:cup+0.8",
+   "dur": 0.9,
+   "side": "R",
+   "arc": 0.05,
+   "spec": {
+    "hold": "cup",
+    "at": {
+     "rel": "chest",
+     "pos": [
+      0.14,
+      0.25,
+      -0.18
+     ]
+    },
+    "orient": "upright"
+   }
+  }
+ ],
+ "fx": [
+  {
+   "t": "leave_edge:cup+0.15",
+   "do": "spill",
+   "from": "cup",
+   "count": 4,
+   "dur": 0.5,
+   "speed": 0.25,
+   "seed": 3
+  },
+  {
+   "t": 9.11,
+   "do": "fling",
+   "from": "cup",
+   "dur": 0.29,
+   "to": {
+    "char": "mia",
+    "face": [
+     -0.072,
+     -0.028
+    ]
+   }
+  }
+ ],
+ "shots": [
+  {
+   "name": "s1_wide",
+   "start": 0.0,
+   "end": 3.0,
+   "fstop": 4.0,
+   "shake": 0.08,
+   "lag": 0.2,
+   "keys": [
+    {
+     "t": 0.0,
+     "pos": [
+      1.5,
+      -2.5,
+      1.3
+     ],
+     "aim": [
+      0.15,
+      0.0,
+      1.17
+     ],
+     "lens": 35
+    },
+    {
+     "t": 3.0,
+     "pos": [
+      1.3,
+      -2.15,
+      1.22
+     ],
+     "aim": [
+      0.15,
+      -0.08,
+      1.08
+     ],
+     "lens": 35
+    }
+   ],
+   "focus": {
+    "char": "mia",
+    "bone": "head_center"
+   }
+  },
+  {
+   "name": "s2_catch",
+   "start": 3.0,
+   "end": 7.6,
+   "fstop": 2.8,
+   "shake": 0.1,
+   "lag": 0.3,
+   "keys": [
+    {
+     "t": 3.0,
+     "pos": [
+      -0.5,
+      -1.5,
+      0.62
+     ],
+     "aim": {
+      "object": "cup",
+      "offset": [
+       -0.05,
+       0,
+       0.38
+      ]
+     },
+     "lens": 21
+    },
+    {
+     "t": "catch:cup+0.2",
+     "pos": [
+      -0.42,
+      -1.42,
+      0.55
+     ],
+     "aim": {
+      "object": "cup",
+      "offset": [
+       -0.05,
+       0,
+       0.38
+      ]
+     },
+     "lens": 21
+    },
+    {
+     "t": 7.6,
+     "pos": [
+      -0.35,
+      -1.45,
+      0.85
+     ],
+     "aim": {
+      "char": "mia",
+      "bone": "head_center",
+      "offset": [
+       0,
+       0,
+       -0.32
+      ]
+     },
+     "lens": 21
+    }
+   ],
+   "focus": {
+    "object": "cup"
+   }
+  },
+  {
+   "name": "s3_reaction",
+   "start": 7.6,
+   "end": 15.0,
+   "fstop": 2.2,
+   "shake": 0.12,
+   "lag": 0.35,
+   "keys": [
+    {
+     "t": 7.6,
+     "pos": [
+      1.0,
+      -1.4,
+      1.35
+     ],
+     "aim": {
+      "char": "mia",
+      "bone": "head_center",
+      "offset": [
+       0.05,
+       -0.05,
+       -0.06
+      ]
+     },
+     "lens": 33
+    },
+    {
+     "t": 15.0,
+     "pos": [
+      0.88,
+      -1.2,
+      1.33
+     ],
+     "aim": {
+      "char": "mia",
+      "bone": "head_center",
+      "offset": [
+       0.05,
+       -0.05,
+       -0.05
+      ]
+     },
+     "lens": 35
+    }
+   ],
+   "focus": {
+    "char": "mia",
+    "bone": "head_center"
+   }
+  }
+ ],
+ "audio": {
+  "narrator_voice": "am_michael",
+  "narration": [
+   {
+    "t": 0.35,
+    "text": "Mia never looks away from a sunset."
+   },
+   {
+    "t": 3.3,
+    "text": "But in the half second it takes a cup to fall, her body is already moving.",
+    "speed": 1.1
+   },
+   {
+    "t": 7.85,
+    "text": "Not a single drop spilled."
+   },
+   {
+    "t": 10.05,
+    "text": "Well... almost."
+   },
+   {
+    "t": 12.7,
+    "text": "Reflexes, ten. Coffee, nine."
+   }
+  ],
+  "dialogue": [
+   {
+    "t": 7.2,
+    "char": "mia",
+    "voice": "af_heart",
+    "text": "Phew."
+   }
+  ],
+  "sfx": [
+   {
+    "at": "place:cup",
+    "type": "clink",
+    "gain": 0.5
+   },
+   {
+    "at": "topple:cup+0.12",
+    "type": "tick",
+    "gain": 0.35
+   },
+   {
+    "at": "leave_edge:cup",
+    "type": "whoosh_soft",
+    "gain": 0.35
+   },
+   {
+    "t": 3.05,
+    "type": "heartbeat",
+    "gain": 0.6
+   },
+   {
+    "t": 3.95,
+    "type": "heartbeat",
+    "gain": 0.55
+   },
+   {
+    "at": "step:mia:R:0",
+    "type": "step",
+    "gain": 0.5
+   },
+   {
+    "at": "catch:cup",
+    "type": "catch",
+    "gain": 0.8
+   },
+   {
+    "at": "step:mia:R:1",
+    "type": "step",
+    "gain": 0.35
+   },
+   {
+    "at": "step:mia:L:2",
+    "type": "step",
+    "gain": 0.3
+   },
+   {
+    "t": 9.4,
+    "type": "plip",
+    "gain": 0.6
+   },
+   {
+    "auto": "splats",
+    "type": "drip",
+    "gain": 0.3
+   }
+  ],
+  "slowmo_filter": true,
+  "ambience": "evening_street",
+  "music": "warm_pad"
+ }
+}

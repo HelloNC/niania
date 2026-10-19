@@ -1,0 +1,7 @@
+# renders, builds and local demos are large and machine-specific
+demo/
+animation_projects/
+*.zip
+__pycache__/
+*.pyc
+.DS_Store

@@ -1,0 +1,1126 @@
+{
+ "title": "Cockpit Lockout",
+ "premise": "News-style reconstruction: a captain steps out and is locked out of the cockpit while the first officer stays at the controls.",
+ "fps": 24,
+ "resolution": [
+  1920,
+  1080
+ ],
+ "duration": 18.0,
+ "style": "clay",
+ "set": {
+  "template": "cockpit_cutaway",
+  "params": {
+   "rows": 22
+  }
+ },
+ "crowds": [
+  {
+   "name": "pax",
+   "seats": "all",
+   "fill": 0.93,
+   "seed": 3,
+   "spec": {
+    "body": "mannequin",
+    "material": "clay"
+   },
+   "special": {
+    "13C": {
+     "material": "subject",
+     "color": "#a9c4f2"
+    }
+   }
+  },
+  {
+   "name": "ghost",
+   "seats": [
+    "1A",
+    "1B",
+    "1C",
+    "1D",
+    "1E",
+    "1F",
+    "2A",
+    "2B",
+    "2C",
+    "2D",
+    "2E",
+    "2F",
+    "3A",
+    "3B",
+    "3C",
+    "3D",
+    "3E",
+    "3F",
+    "4A",
+    "4B",
+    "4C",
+    "4D",
+    "4E",
+    "4F",
+    "5A",
+    "5B",
+    "5C",
+    "5D",
+    "5E",
+    "5F",
+    "6A",
+    "6B",
+    "6C",
+    "6D",
+    "6E",
+    "6F"
+   ],
+   "fill": 0.9,
+   "seed": 7,
+   "spec": {
+    "body": "mannequin",
+    "material": "ghost",
+    "color": "#a8dcff"
+   }
+  }
+ ],
+ "cast": {
+  "copilot": {
+   "body": "mannequin",
+   "material": "subject",
+   "color": "#e8352b",
+   "start": {
+    "seat": "first_officer",
+    "lean": -2
+   }
+  },
+  "pilot": {
+   "body": "mannequin",
+   "material": "subject",
+   "color": "#2c6fe6",
+   "hat": "pilot_cap",
+   "start": {
+    "pos": [
+     0.05,
+     -2.62
+    ],
+    "facing": 90,
+    "width": 0.2
+   }
+  }
+ },
+ "props": {
+  "cockpit_door": {
+   "type": "existing",
+   "motion": [
+    {
+     "t": 7.85,
+     "do": "rattle",
+     "dur": 0.75,
+     "amp": 1.6,
+     "freq": 9,
+     "axis": "Z"
+    },
+    {
+     "t": 12.3,
+     "do": "rattle",
+     "dur": 0.9,
+     "amp": 1.8,
+     "freq": 10,
+     "axis": "Z"
+    }
+   ]
+  }
+ },
+ "performance": [
+  {
+   "char": "copilot",
+   "do": "bend",
+   "t": 0,
+   "dur": 0.01,
+   "bone": "chest",
+   "rot": [
+    16,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "copilot",
+   "do": "bend",
+   "t": 0,
+   "dur": 0.01,
+   "bone": "spine",
+   "rot": [
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "copilot",
+   "do": "hand",
+   "t": 0,
+   "dur": 0.01,
+   "side": "L",
+   "spec": {
+    "world": [
+     0.45,
+     1.56,
+     0.86
+    ],
+    "fingers": [
+     0,
+     1,
+     -0.2
+    ],
+    "palm": [
+     0,
+     0,
+     -1
+    ]
+   }
+  },
+  {
+   "char": "copilot",
+   "do": "hand",
+   "t": 0,
+   "dur": 0.01,
+   "side": "R",
+   "spec": {
+    "world": [
+     0.64,
+     1.58,
+     0.86
+    ],
+    "fingers": [
+     0,
+     1,
+     -0.2
+    ],
+    "palm": [
+     0,
+     0,
+     -1
+    ]
+   }
+  },
+  {
+   "char": "copilot",
+   "do": "grip",
+   "t": 0,
+   "dur": 0.01,
+   "side": "L",
+   "amount": 0.85
+  },
+  {
+   "char": "copilot",
+   "do": "grip",
+   "t": 0,
+   "dur": 0.01,
+   "side": "R",
+   "amount": 0.85
+  },
+  {
+   "char": "copilot",
+   "do": "look",
+   "t": 0,
+   "dur": 0.01,
+   "target": [
+    0.5,
+    2.3,
+    0.95
+   ],
+   "speed": 0.6
+  },
+  {
+   "char": "copilot",
+   "do": "look",
+   "t": 9.35,
+   "dur": 0.5,
+   "target": [
+    0.0,
+    -0.1,
+    1.35
+   ],
+   "speed": 0.5,
+   "weight": 0.55
+  },
+  {
+   "char": "copilot",
+   "do": "bend",
+   "t": 9.4,
+   "dur": 0.8,
+   "bone": "chest",
+   "rot": [
+    16,
+    0,
+    5
+   ]
+  },
+  {
+   "char": "copilot",
+   "do": "look",
+   "t": 10.9,
+   "dur": 0.6,
+   "target": [
+    0.5,
+    2.3,
+    0.95
+   ],
+   "speed": 0.35
+  },
+  {
+   "char": "copilot",
+   "do": "bend",
+   "t": 11.0,
+   "dur": 1.2,
+   "bone": "chest",
+   "rot": [
+    24,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "look",
+   "t": 0,
+   "dur": 0.01,
+   "target": [
+    0.1,
+    0.0,
+    1.3
+   ],
+   "speed": 0.8
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 4.8,
+   "dur": 0.44,
+   "foot": "R",
+   "by": [
+    0,
+    0.45
+   ],
+   "lift": 0.05,
+   "shift_first": 0.12,
+   "weight_after": 0.62
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 5.2,
+   "dur": 0.44,
+   "foot": "L",
+   "by": [
+    0,
+    0.86
+   ],
+   "lift": 0.05,
+   "shift_first": 0.0,
+   "weight_after": 0.38
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 5.6,
+   "dur": 0.44,
+   "foot": "R",
+   "by": [
+    0,
+    0.86
+   ],
+   "lift": 0.05,
+   "shift_first": 0.0,
+   "weight_after": 0.62
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 6.0,
+   "dur": 0.44,
+   "foot": "L",
+   "by": [
+    0,
+    0.86
+   ],
+   "lift": 0.05,
+   "shift_first": 0.0,
+   "weight_after": 0.38
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 6.4,
+   "dur": 0.44,
+   "foot": "R",
+   "by": [
+    0,
+    0.85
+   ],
+   "lift": 0.05,
+   "shift_first": 0.0,
+   "weight_after": 0.62
+  },
+  {
+   "char": "pilot",
+   "do": "step",
+   "t": 6.8,
+   "dur": 0.44,
+   "foot": "L",
+   "by": [
+    0,
+    0.42
+   ],
+   "lift": 0.04,
+   "shift_first": 0.0,
+   "weight_after": 0.5
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 4.8,
+   "dur": 0.4,
+   "bone": "chest",
+   "rot": [
+    4,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 6.95,
+   "dur": 0.55,
+   "side": "R",
+   "arc": 0.06,
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.74,
+     -0.135,
+     1.1
+    ],
+    "fingers": [
+     0.1,
+     0.55,
+     -1
+    ],
+    "palm": [
+     0,
+     0.7,
+     -0.7
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "grip",
+   "t": 7.35,
+   "dur": 0.15,
+   "side": "R",
+   "amount": 0.6
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 7.85,
+   "dur": 0.25,
+   "offset": [
+    0,
+    -0.05,
+    0
+   ],
+   "ease": "out"
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 8.1,
+   "dur": 0.2,
+   "offset": [
+    0,
+    0.0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 8.3,
+   "dur": 0.2,
+   "offset": [
+    0,
+    -0.06,
+    0
+   ],
+   "ease": "out"
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 8.55,
+   "dur": 0.3,
+   "offset": [
+    0,
+    0.0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 7.85,
+   "dur": 0.25,
+   "bone": "chest",
+   "rot": [
+    -6,
+    0,
+    4
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 8.6,
+   "dur": 0.4,
+   "bone": "chest",
+   "rot": [
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 8.85,
+   "dur": 0.35,
+   "side": "L",
+   "arc": 0.05,
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.16,
+     1.3599999999999999
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "grip",
+   "t": 8.85,
+   "dur": 0.3,
+   "side": "L",
+   "amount": 0.95
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.2,
+   "dur": 0.07,
+   "side": "L",
+   "ease": "in",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.085,
+     1.3599999999999999
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.27,
+   "dur": 0.2,
+   "side": "L",
+   "ease": "out",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.17,
+     1.38
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.5,
+   "dur": 0.07,
+   "side": "L",
+   "ease": "in",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.085,
+     1.3599999999999999
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.57,
+   "dur": 0.2,
+   "side": "L",
+   "ease": "out",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.17,
+     1.38
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.8,
+   "dur": 0.07,
+   "side": "L",
+   "ease": "in",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.085,
+     1.3599999999999999
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 9.87,
+   "dur": 0.3,
+   "side": "L",
+   "ease": "out",
+   "spec": {
+    "on": "cockpit_door",
+    "local": [
+     0.42,
+     -0.2,
+     1.38
+    ],
+    "fingers": [
+     0,
+     0.15,
+     1
+    ],
+    "palm": [
+     0,
+     1,
+     0
+    ]
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "shrug",
+   "t": 9.2,
+   "dur": 0.25,
+   "amount": 0.4
+  },
+  {
+   "char": "pilot",
+   "do": "shrug",
+   "t": 9.5,
+   "dur": 0.25,
+   "amount": 0.4
+  },
+  {
+   "char": "pilot",
+   "do": "shrug",
+   "t": 9.8,
+   "dur": 0.25,
+   "amount": 0.4
+  },
+  {
+   "char": "pilot",
+   "do": "look",
+   "t": 10.3,
+   "dur": 0.4,
+   "target": [
+    0.0,
+    -0.05,
+    1.55
+   ],
+   "speed": 0.7
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 10.3,
+   "dur": 0.6,
+   "bone": "head",
+   "rot": [
+    -4,
+    6,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "hand",
+   "t": 10.6,
+   "dur": 0.6,
+   "side": "L",
+   "spec": {
+    "preset": "relaxed"
+   }
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 12.3,
+   "dur": 0.25,
+   "offset": [
+    0,
+    -0.06,
+    0
+   ],
+   "ease": "out"
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 12.55,
+   "dur": 0.2,
+   "offset": [
+    0,
+    0.0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 12.75,
+   "dur": 0.25,
+   "offset": [
+    0,
+    -0.07,
+    0
+   ],
+   "ease": "out"
+  },
+  {
+   "char": "pilot",
+   "do": "hips",
+   "t": 13.0,
+   "dur": 0.35,
+   "offset": [
+    0,
+    0.0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 12.3,
+   "dur": 0.3,
+   "bone": "chest",
+   "rot": [
+    -8,
+    0,
+    4
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "bend",
+   "t": 13.1,
+   "dur": 0.6,
+   "bone": [
+    "chest",
+    "head"
+   ],
+   "rot": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "char": "pilot",
+   "do": "grip",
+   "t": 15.2,
+   "dur": 0.3,
+   "side": "R",
+   "amount": 0.6
+  }
+ ],
+ "fx": [],
+ "shots": [
+  {
+   "name": "s1_cabin",
+   "start": 0.0,
+   "end": 4.6,
+   "fstop": 5.6,
+   "shake": 0.04,
+   "lag": 0.3,
+   "variant": "interior",
+   "hide": [
+    "ghost_*"
+   ],
+   "keys": [
+    {
+     "t": 0.0,
+     "pos": [
+      0.12,
+      -21.0,
+      1.6
+     ],
+     "aim": [
+      0.0,
+      -6.0,
+      1.15
+     ],
+     "lens": 30
+    },
+    {
+     "t": 4.6,
+     "pos": [
+      0.12,
+      -18.6,
+      1.58
+     ],
+     "aim": [
+      0.0,
+      -6.0,
+      1.15
+     ],
+     "lens": 30
+    }
+   ],
+   "focus": {
+    "anchor": "crowd:pax:13C"
+   }
+  },
+  {
+   "name": "s2_cutaway",
+   "start": 4.6,
+   "end": 11.6,
+   "fstop": 0,
+   "shake": 0.04,
+   "lag": 0.5,
+   "variant": "cutaway",
+   "hide": [
+    "pax_1*",
+    "pax_2*",
+    "pax_3*",
+    "pax_4*",
+    "pax_5*",
+    "pax_6*"
+   ],
+   "keys": [
+    {
+     "t": 4.6,
+     "pos": [
+      -7.6,
+      -0.4,
+      4.6
+     ],
+     "aim": [
+      0.0,
+      -0.6,
+      0.8
+     ],
+     "lens": 28
+    },
+    {
+     "t": 11.6,
+     "pos": [
+      -6.6,
+      0.5,
+      4.1
+     ],
+     "aim": [
+      0.0,
+      0.0,
+      0.85
+     ],
+     "lens": 30
+    }
+   ]
+  },
+  {
+   "name": "s3_door",
+   "start": 11.6,
+   "end": 18.0,
+   "fstop": 2.8,
+   "shake": 0.1,
+   "lag": 0.4,
+   "variant": "interior",
+   "hide": [
+    "ghost_*",
+    "pax_1D",
+    "pax_1E",
+    "pax_1F",
+    "pax_2E",
+    "pax_2F"
+   ],
+   "keys": [
+    {
+     "t": 11.6,
+     "pos": [
+      0.72,
+      -1.0,
+      1.38
+     ],
+     "aim": [
+      0.22,
+      -0.05,
+      1.1
+     ],
+     "lens": 38
+    },
+    {
+     "t": 18.0,
+     "pos": [
+      0.64,
+      -0.88,
+      1.34
+     ],
+     "aim": [
+      0.24,
+      -0.05,
+      1.06
+     ],
+     "lens": 42
+    }
+   ],
+   "focus": [
+    0.31,
+    -0.06,
+    1.02
+   ],
+   "framing": false
+  }
+ ],
+ "graphics": [
+  {
+   "type": "badge",
+   "t": [
+    0.0,
+    18.0
+   ],
+   "text": "RECONSTRUCTION",
+   "pos": "top_left"
+  },
+  {
+   "type": "tag",
+   "t": [
+    1.0,
+    4.4
+   ],
+   "title": "LEO MARSH",
+   "sub": "PASSENGER \u00b7 ROW 13",
+   "anchor": {
+    "anchor": "crowd:pax:13C"
+   },
+   "offset": [
+    -40,
+    80
+   ]
+  },
+  {
+   "type": "title",
+   "t": [
+    4.8,
+    8.2
+   ],
+   "text": "WHAT HAPPENED NEXT",
+   "pos": "top_right"
+  },
+  {
+   "type": "stamp",
+   "t": [
+    4.8,
+    11.4
+   ],
+   "text": "07:05 \u00b7 DXB",
+   "pos": "bottom_left"
+  },
+  {
+   "type": "tag",
+   "t": [
+    7.6,
+    11.4
+   ],
+   "title": "CAPT. R. HALE",
+   "sub": "PILOT \u00b7 LOCKED OUT",
+   "anchor": {
+    "char": "pilot",
+    "bone": "head_center"
+   },
+   "offset": [
+    30,
+    110
+   ]
+  },
+  {
+   "type": "callout",
+   "t": [
+    9.6,
+    11.4
+   ],
+   "text": "FIRST OFFICER",
+   "anchor": {
+    "char": "copilot",
+    "bone": "head_center"
+   },
+   "offset": [
+    -60,
+    40
+   ],
+   "side": "right"
+  },
+  {
+   "type": "stamp",
+   "t": [
+    12.2,
+    17.8
+   ],
+   "text": "07:07 \u00b7 DOOR LOCKED",
+   "pos": "bottom_left",
+   "size": 46
+  }
+ ],
+ "audio": {
+  "narrator_voice": "bm_george",
+  "narrator_speed": 1.08,
+  "narration": [
+   {
+    "t": 0.4,
+    "text": "Flight four seventeen. Among the passengers, Leo Marsh, in seat thirteen C."
+   },
+   {
+    "t": 5.7,
+    "text": "At five past seven, the captain left the cockpit."
+   },
+   {
+    "t": 8.9,
+    "text": "When he came back, the door would not open."
+   },
+   {
+    "t": 12.4,
+    "text": "Inside, the first officer didn't move."
+   },
+   {
+    "t": 15.1,
+    "text": "And no one in the cabin knew."
+   }
+  ],
+  "dialogue": [],
+  "sfx": [
+   {
+    "t": 4.65,
+    "type": "beep",
+    "gain": 0.35
+   },
+   {
+    "auto": "steps",
+    "char": "pilot",
+    "type": "step",
+    "gain": 0.45
+   },
+   {
+    "t": 7.85,
+    "type": "rattle",
+    "gain": 0.7
+   },
+   {
+    "t": 9.27,
+    "type": "knock",
+    "gain": 0.9
+   },
+   {
+    "t": 9.57,
+    "type": "knock",
+    "gain": 0.9
+   },
+   {
+    "t": 9.87,
+    "type": "knock",
+    "gain": 0.95
+   },
+   {
+    "t": 12.3,
+    "type": "rattle",
+    "gain": 0.8
+   }
+  ],
+  "slowmo_filter": false,
+  "ambience": "aircraft_cabin",
+  "music": "tension"
+ },
+ "exposure": -0.55
+}
