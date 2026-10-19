@@ -108,6 +108,7 @@ class Performer:
         self.hands = {s: SpecTrack({'preset': 'relaxed'}) for s in 'LR'}
         self.grip = {s: Track(0.12) for s in 'LR'}
         self.spread = {s: Track(0.0) for s in 'LR'}
+        self.point = {s: Track(0.0) for s in 'LR'}    # 1 = index finger straight while the others stay curled
         self.face = {k: Track(0.0) for k in FACE_KEYS}
         self.look = SpecTrack(None)
         self.look_w = Track(0.0)
@@ -214,6 +215,9 @@ class Performer:
     def spread_(self, t, dur=0.15, side='R', amount=1.0, **_):
         self.spread[side].move(t, dur, amount, 'inout')
 
+    def point_(self, t, dur=0.15, side='R', amount=1.0, ease_='inout', **_):
+        self.point[side].move(t, dur, amount, ease_)
+
     def expr(self, t, dur=0.3, set=None, ease_='auto', **_):
         presets = {
             'neutral': {}, 'content': {'smile': 0.45},
@@ -264,7 +268,7 @@ class Performer:
         do = ev['do']
         fn = {'stance': self.stance, 'step': self.step, 'sit': self.sit, 'shift': self.shift, 'hips': self.hips,
               'bend': self.bend, 'anticipate': self.anticipate, 'shrug': self.shrug_, 'hand': self.hand,
-              'grip': self.grip_, 'spread': self.spread_, 'expr': self.expr, 'blink': self.blink,
+              'grip': self.grip_, 'spread': self.spread_, 'point': self.point_, 'expr': self.expr, 'blink': self.blink,
               'look': self.look_at}.get(do)
         if fn is None:
             raise ValueError('%s: unknown verb %r' % (self.name, do))
@@ -454,6 +458,8 @@ class Performer:
                         a = fit[(fn, i)] * min(g, 1.0)
                     else:
                         a = g * (68 if i == 1 else 78) * DEG
+                    if fn == 'index':
+                        a *= 1.0 - clamp(self.point[s](t), 0, 1)
                     spread_a = 0.0
                     if i == 1:
                         k = {'index': -1.0, 'middle': -0.3, 'ring': 0.3, 'pinky': 1.0}[fn]

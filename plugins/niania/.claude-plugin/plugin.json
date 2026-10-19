@@ -1,6 +1,6 @@
 {
   "name": "niania",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "niania - one premise in, finished animated MP4 out: rigged characters with real animation, cinematic cameras, local narration, sound, graphics and QC. Two looks: rim-lit silhouette and clay news reconstruction. Runs locally on Blender (no API keys).",
   "author": {
     "name": "NC"

@@ -129,7 +129,7 @@ def new(project, duration=30.0, size='1920x1080', title=None):
     print('created', project)
 
 
-VERBS = {'stance', 'sit', 'step', 'shift', 'hips', 'bend', 'anticipate', 'shrug', 'hand', 'grip', 'spread', 'expr', 'blink', 'look'}
+VERBS = {'stance', 'sit', 'step', 'shift', 'hips', 'bend', 'anticipate', 'shrug', 'hand', 'grip', 'spread', 'point', 'expr', 'blink', 'look'}
 OBJ_DO = {'held', 'place', 'topple', 'fall', 'catch', 'static', 'swing', 'rattle', 'path', 'spin', 'attach'}
 
 

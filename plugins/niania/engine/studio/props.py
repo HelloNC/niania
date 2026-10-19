@@ -7,6 +7,7 @@ import math
 import bpy
 from mathutils import Vector, Matrix
 from . import geom, materials
+from .util import srgb
 
 
 def _obj(name, parts, col, loc=(0, 0, 0), rot_z=0.0):
@@ -261,7 +262,7 @@ def soda_bottle(name, col, color='#2fa35a', label='#f4efe4', stripe='#d8352c', l
     ml = materials.cel(name + '_label', label, rim=0.6, emit=0.2)
     ms = materials.cel(name + '_stripe', stripe, rim=0.6, emit=0.2)
     ob = _obj(name, [(body, m), (lab, ml), (band, ms)], col, loc, rot_z)
-    ob['grip_body'] = [r, 0.085]
+    ob['grip_body'] = [r, 0.105]
     ob['radius'], ob['height'] = r, h
     ob['mouth'] = [0.0125, h]
     return ob
@@ -281,9 +282,148 @@ def bottle_cap(name, col, color='#d8352c', loc=(0, 0, 0)):
     return ob
 
 
-BUILDERS = {
+def kitchen_island(name, col, w=1.3, d=0.7, h=0.92, color='#eceef1', top='#f6f6f7', loc=(0, 0, 0), rot_z=0.0):
+    """Kitchen island: cabinet body with door panels, handles and a slab top that overhangs.
+    Origin on the floor at the centre; local +Y is depth. `top_z` = work surface height."""
+    m = materials.cel(name + '_mat', color, rim=0.5)
+    mt = materials.cel(name + '_top', top, rim=0.5)
+    parts = [(geom.box(w - 0.04, d - 0.06, h - 0.1, (0, 0.02, (h - 0.1) / 2 + 0.06), bevel=0.004), m),
+             (geom.box(w - 0.08, d - 0.12, 0.06, (0, 0.04, 0.03)), m),
+             (geom.box(w + 0.06, d + 0.04, 0.04, (0, 0, h - 0.02), bevel=0.006), mt)]
+    n = 3
+    pw = (w - 0.1) / n
+    for i in range(n):
+        x = -w / 2 + 0.05 + pw * (i + 0.5)
+        parts.append((geom.box(pw - 0.02, 0.012, h - 0.2, (x, -d / 2 + 0.035, (h - 0.2) / 2 + 0.09), bevel=0.003), m))
+        parts.append((geom.capsule((x - 0.06, -d / 2 + 0.018, h - 0.16), (x + 0.06, -d / 2 + 0.018, h - 0.16), 0.007), mt))
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['top_z'], ob['radius'], ob['height'] = h, max(w, d) / 2, h
+    return ob
+
+
+def switch_plate(name, col, color='#f7f3ec', loc=(0, 0, 0), rot_z=0.0, w=0.08, h=0.125):
+    """Wall plate of a light switch. Local -Y faces the room (rot_z turns it onto any wall)."""
+    m = materials.clay(name + '_mat', color, rough=0.5)
+    dk = materials.clay(name + '_slot', '#8b867f', rough=0.6)
+    parts = [(geom.box(w, 0.01, h, (0, -0.005, 0), bevel=0.003), m),
+             (geom.box(0.016, 0.004, 0.034, (0, -0.0105, 0), bevel=0.0015), dk)]
+    for z in (h / 2 - 0.014, -h / 2 + 0.014):           # screw heads
+        parts.append((geom.ellipsoid(0.0045, 0.0018, 0.0045, (0, -0.0105, z), 12, 6), dk))
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['radius'], ob['height'] = w / 2, h
+    return ob
+
+
+def switch_lever(name, col, color='#fbf8f2', loc=(0, 0, 0), rot_z=0.0, length=0.036, tilt=35.0):
+    """Toggle lever of a light switch, built in the DOWN (off) position. The origin is the pivot, so a
+    `swing` about local X by -2*tilt flips it UP (on); +2*tilt from there flips it back down."""
+    m = materials.clay(name + '_mat', color, rough=0.35)
+    a = math.radians(tilt)
+    tip = (0, -length * math.cos(a), -length * math.sin(a))
+    parts = [(geom.capsule((0, 0, 0), tip, 0.0065, 0.0085, 14, 4), m),
+             (geom.ellipsoid(0.011, 0.006, 0.011, (0, -0.003, 0), 14, 8), m)]
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['radius'], ob['height'] = 0.01, length
+    return ob
+
+
+def ceiling_lamp(name, col, color='#f39d8a', loc=(0, 0, 0), drop=0.55, power=60.0, light_color='#ffd9a8'):
+    """Pendant lamp (origin = shade rim centre) with an emissive bulb and a point light that the
+    timeline's `light_cues` switch on/off (bulb material and light are tagged)."""
+    m = materials.clay(name + '_mat', color, rough=0.45)
+    cord = materials.clay(name + '_cord', '#4a4744', rough=0.6)
+    bulb = materials.plastic(name + '_bulb', light_color, rough=0.2, coat=0.0, emit=8.0)
+    bulb['lamp_emit'] = 8.0
+    parts = [(geom.lathe([(0.0, 0.0), (0.17, 0.0), (0.16, 0.012), (0.06, 0.15), (0.025, 0.18), (0.0, 0.18)], 32, False, True), m),
+             (geom.capsule((0, 0, 0.18), (0, 0, 0.18 + drop + 2.0), 0.005), cord),
+             (geom.ellipsoid(0.05, 0.05, 0.06, (0, 0, 0.02), 18, 10), bulb)]
+    ob = _obj(name, parts, col, loc, 0.0)
+    L = bpy.data.lights.new(name + '_light', 'POINT')
+    L.energy, L.color = power, srgb(light_color)[:3]
+    L.shadow_soft_size = 0.06
+    lo = bpy.data.objects.new(name + '_light', L)
+    col.objects.link(lo)
+    lo.parent = ob
+    lo.location = (0, 0, -0.03)
+    ob['radius'], ob['height'] = 0.17, 0.18
+    return ob
+
+
+def desk(name, col, w=1.2, d=0.6, h=0.74, color='#e9e2d6', leg='#3d3b39', loc=(0, 0, 0), rot_z=0.0):
+    """Simple desk / table: slab top on four square legs. Origin on the floor centre; top_z = h."""
+    mt = materials.clay(name + '_top', color, rough=0.55)
+    ml = materials.clay(name + '_leg', leg, rough=0.6)
+    parts = [(geom.box(w, d, 0.04, (0, 0, h - 0.02), bevel=0.008), mt)]
+    for x in (-w / 2 + 0.05, w / 2 - 0.05):
+        for y in (-d / 2 + 0.05, d / 2 - 0.05):
+            parts.append((geom.box(0.04, 0.04, h - 0.04, (x, y, (h - 0.04) / 2), bevel=0.004), ml))
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['top_z'], ob['radius'], ob['height'] = h, max(w, d) / 2, h
+    return ob
+
+
+def monitor(name, col, file=None, w=0.62, h=0.36, color='#26262b', emit=1.4, loc=(0, 0, 0), rot_z=0.0, project=None):
+    """Desk monitor: bezel + stand, screen image (emissive) facing local -Y. Origin = foot on the desk."""
+    m = materials.plastic(name + '_bz', color, rough=0.45, coat=0.1, spec=0.4)
+    parts = [(geom.box(w + 0.03, 0.03, h + 0.03, (0, 0.0, 0.12 + h / 2), bevel=0.006), m),
+             (geom.box(0.05, 0.03, 0.12, (0, 0.03, 0.06)), m), (geom.box(0.22, 0.14, 0.012, (0, 0.03, 0.006), bevel=0.004), m)]
+    ob = _obj(name, parts, col, loc, rot_z)
+    if file:
+        sc = image_plane(name + '_screen', col, file, w, (0, -0.0165, 0.12 + h / 2), (90, 0, 0), emit, False, project)
+        sc.parent = ob
+    ob['top_z'], ob['radius'], ob['height'] = 0.12 + h, w / 2, 0.12 + h
+    return ob
+
+
+def screen(name, col, file=None, w=2.4, color='#1f2a33', emit=1.0, loc=(0, 0, 0), rot_z=0.0, stand=True, project=None):
+    """Large presentation screen on a slim stand (origin at the floor). Image keeps its aspect."""
+    m = materials.plastic(name + '_fr', color, rough=0.5, coat=0.1, spec=0.3)
+    h = w * 9 / 16
+    z0 = 0.55
+    parts = [(geom.box(w + 0.08, 0.05, h + 0.08, (0, 0.03, z0 + h / 2), bevel=0.01), m)]
+    if stand:
+        parts += [(geom.box(0.08, 0.06, z0, (0, 0.06, z0 / 2)), m), (geom.box(0.9, 0.4, 0.03, (0, 0.06, 0.015), bevel=0.01), m)]
+    ob = _obj(name, parts, col, loc, rot_z)
+    if file:
+        sc = image_plane(name + '_img', col, file, w, (0, 0.0, z0 + h / 2), (90, 0, 0), emit, False, project)
+        sc.parent = ob
+    ob['top_z'], ob['radius'], ob['height'] = z0 + h, w / 2, z0 + h
+    return ob
+
+
+def game_controller(name, col, color='#2b2d33', accent='#e2554a', loc=(0, 0, 0), rot_z=0.0):
+    """Gamepad: rounded body with two grips, sticks and buttons. Origin at the body centre; local -Y faces
+    the player, +Z up. grip_body lets a hand hold it."""
+    m = materials.plastic(name + '_m', color, rough=0.4, coat=0.2, spec=0.4)
+    a = materials.plastic(name + '_a', accent, rough=0.35, coat=0.2, spec=0.4, emit=0.3)
+    parts = [(geom.ellipsoid(0.075, 0.035, 0.022, (0, 0, 0), 24, 12), m)]
+    for sx in (-1, 1):
+        parts.append((geom.capsule((sx * 0.05, -0.005, -0.004), (sx * 0.072, -0.045, -0.02), 0.022, 0.02, 14, 4), m))
+        parts.append((geom.capsule((sx * 0.03, 0.0, 0.02), (sx * 0.03, 0.0, 0.03), 0.009, 0.009, 10, 3), m))
+    for i, (x, y) in enumerate(((0.05, 0.012), (0.06, 0.0), (0.04, 0.0), (0.05, -0.012))):
+        parts.append((geom.ellipsoid(0.005, 0.005, 0.004, (x, y, 0.021), 8, 4), a))
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['grip_body'] = [0.022, 0.0]
+    ob['radius'], ob['height'] = 0.075, 0.05
+    return ob
+
+
+def bed(name, col, color='#f0ebe2', blanket='#6f8fb8', loc=(0, 0, 0), rot_z=0.0):
+    m = materials.clay(name + '_f', '#d8c2a2', rough=0.6)
+    s = materials.clay(name + '_s', color, rough=0.9)
+    b = materials.clay(name + '_b', blanket, rough=0.9)
+    parts = [(geom.box(1.0, 2.0, 0.3, (0, 0, 0.15), bevel=0.02), m), (geom.box(0.96, 1.96, 0.16, (0, 0, 0.38), bevel=0.05), s),
+             (geom.box(0.98, 1.3, 0.1, (0, -0.32, 0.47), bevel=0.04), b), (geom.box(0.6, 0.3, 0.12, (0, 0.75, 0.52), bevel=0.05), s),
+             (geom.box(1.04, 0.06, 0.8, (0, 1.0, 0.4), bevel=0.02), m)]
+    ob = _obj(name, parts, col, loc, rot_z)
+    ob['top_z'], ob['radius'], ob['height'] = 0.46, 1.0, 0.46
+    return ob
+
+
+BUILDERS = {'switch_plate': switch_plate, 'switch_lever': switch_lever, 'ceiling_lamp': ceiling_lamp,
     'mug': mug, 'bistro_table': bistro_table, 'chair': chair, 'ball': ball, 'book': book,
-    'lamp_post': lamp_post, 'tree': tree, 'soda_bottle': soda_bottle, 'bottle_cap': bottle_cap,
+    'lamp_post': lamp_post, 'tree': tree, 'soda_bottle': soda_bottle, 'bottle_cap': bottle_cap, 'kitchen_island': kitchen_island,
+    'desk': desk, 'monitor': monitor, 'screen': screen, 'game_controller': game_controller, 'bed': bed,
 }
 
 
@@ -325,7 +465,10 @@ def build_prop(name, spec, col):
         return ob
     kw = {k: v for k, v in spec.items() if k not in ('type', 'pos', 'motion', 'rot', '_project')}
     kw['loc'] = tuple(spec.get('pos', (0, 0, 0)))
-    if 'rot' in spec and kind in ('mug', 'chair', 'book', 'soda_bottle'):
+    if kind in ('monitor', 'screen'):
+        kw['project'] = proj
+    if 'rot' in spec and kind in ('mug', 'chair', 'book', 'soda_bottle', 'kitchen_island', 'switch_plate', 'switch_lever',
+                                  'desk', 'monitor', 'screen', 'game_controller', 'bed'):
         kw['rot_z'] = spec['rot']
     ob = BUILDERS[kind](name, col, **kw)
     ob['prop_type'] = kind

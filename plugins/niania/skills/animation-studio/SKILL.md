@@ -20,6 +20,15 @@ narration must be supplied as `audio/narration_supplied.wav` (`"narration_mode":
 Say plainly that the video is then not fully prompt-only. Never use paid services or API keys
 without asking.
 
+## Saved characters (presets): "use Timmy"
+* The user's recurring characters are saved specs in `engine/characters/<name>.json`, next to their
+  reference sheets. Cast one with `{"preset": "timmy", "start": {...}}`. Extra keys override, for example
+  a different `top` colour for an outfit. When the user says **"use Timmy"**, cast the `timmy` preset
+  exactly. Never redesign or substitute him.
+* Timmy is a `body: "toon"` figure: big sphere head, dot eyes, bar brows, maroon funnel-collar tunic,
+  boots. His face is small, so keep him facing the camera. Put cameras on the side of whatever he looks at.
+* To save a new character from a user's sheet, write `engine/characters/<name>.json` (+ the sheet image).
+
 ## Using the user's assets and reference images
 * Images attached in the chat exist as files (their paths appear with the image). Copy them into
   `<project>/assets/` and use them as `image` props (backdrops, screens, posters, maps), airliner

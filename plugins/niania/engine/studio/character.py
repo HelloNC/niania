@@ -454,6 +454,8 @@ def body_material(name, sp):
         return materials.ghost(name + '_ghost', sp.get('color', '#9fd8ff'), sp.get('glow', 1.6), sp.get('alpha', 0.3))
     if kind == 'subject':
         return materials.subject(name + '_subject', color)
+    if kind == 'smooth':
+        return materials.plastic(name + '_skin', sp.get('color', '#f4f3f0'), rough=0.28, coat=0.35)
     if kind == 'cel':
         return materials.cel(name + '_skin', sp['skin'], rim=sp['rim'])
     return materials.clay(name + '_clay', color)
@@ -542,10 +544,34 @@ def build_mannequin(name, rig, sp, col):
 
 
 # ====================================================================== entry
+def load_preset(spec):
+    """{"preset": "timmy", ...overrides} -> the saved character spec from engine/characters/<preset>.json."""
+    spec = dict(spec or {})
+    if spec.get('preset'):
+        import json, os
+        fn = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'characters', spec['preset'].lower() + '.json')
+        base = {k: v for k, v in json.load(open(fn)).items() if not k.startswith('_')}
+        base.update({k: v for k, v in spec.items() if k != 'preset'})
+        spec = base
+    return spec
+
+
 def build_character(name, spec, col):
     sp = dict(DEFAULT_SPEC)
-    sp.update(spec or {})
+    sp.update(load_preset(spec))
     rig = build_armature(name, col, sp['scale'])
+    if sp.get('body') == 'toon':
+        from .toon import build_toon
+        body, face = build_toon(name, rig, sp, col)
+        rig['spec_scale'] = sp['scale']
+        rig.hide_render = True
+        return rig, body, face
+    if sp.get('body') == 'sculpt':
+        from .sculpt import build_sculpt
+        body, face = build_sculpt(name, rig, sp, col, body_material(name, sp))
+        rig['spec_scale'] = sp['scale']
+        rig.hide_render = True
+        return rig, body, face
     if sp.get('body') == 'mannequin':
         body = build_mannequin(name, rig, sp, col)
         face = build_face(name, rig, sp, col) if sp.get('face_marks') else None

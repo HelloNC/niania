@@ -1,0 +1,12 @@
+{
+ "_about": "Timmy (from the user's 'The Observer' model sheet, timmy_model_sheet.webp): big cream sphere head, dot eyes, bar brows, small mouth, maroon tunic with a funnel collar and short sleeves, charcoal legs, chunky boots. Use in a timeline as {\"preset\": \"timmy\"}; any extra keys (start, scale, top...) override.",
+ "body": "toon",
+ "skin": "#eadfcc",
+ "top": "#8e1f2a",
+ "legs": "#3d3b39",
+ "shoes": "#4a4744",
+ "features": "#1d1a1a",
+ "brow_color": "#3b3734",
+ "head_r": 0.185,
+ "scale": 1.0
+}

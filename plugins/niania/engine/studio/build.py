@@ -169,6 +169,44 @@ def object_events(tl, world):
     return evs
 
 
+def apply_light_cues(tl, fps):
+    """`light_cues`: [[t, level], ...] (level 0 = room lights off, 1 = on), stepped (constant keys).
+    Room lights, world and tagged emissive materials (`lamp_emit`) scale with the level (down to
+    `light_dim`); lights tagged `night` fade the other way, so the dark state stays readable."""
+    cues = tl.get('light_cues')
+    if not cues:
+        return
+    dim = tl.get('light_dim', 0.0)
+    prefs = bpy.context.preferences.edit
+    old = prefs.keyframe_new_interpolation_type
+    prefs.keyframe_new_interpolation_type = 'CONSTANT'
+    try:
+        for o in [o for o in bpy.data.objects if o.type == 'LIGHT']:
+            base = o.data.energy
+            night = bool(o.get('night') or o.data.get('night'))
+            for t, lvl in cues:
+                o.data.energy = base * ((1 - lvl) if night else (dim + (1 - dim) * lvl))
+                o.data.keyframe_insert('energy', frame=int(round(t * fps)) + 1)
+        w = bpy.context.scene.world
+        bg = w.node_tree.nodes.get('Background') if w and w.use_nodes else None
+        if bg:
+            base = bg.inputs['Strength'].default_value
+            wd = tl.get('world_dim', 0.04)
+            for t, lvl in cues:
+                bg.inputs['Strength'].default_value = base * (wd + (1 - wd) * lvl)
+                bg.inputs['Strength'].keyframe_insert('default_value', frame=int(round(t * fps)) + 1)
+        for m in bpy.data.materials:
+            if 'lamp_emit' in m.keys() and m.use_nodes:
+                b = next((n for n in m.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
+                if b is None:
+                    continue
+                for t, lvl in cues:
+                    b.inputs['Emission Strength'].default_value = m['lamp_emit'] * lvl
+                    b.inputs['Emission Strength'].keyframe_insert('default_value', frame=int(round(t * fps)) + 1)
+    finally:
+        prefs.keyframe_new_interpolation_type = old
+
+
 # ----------------------------------------------------------------------------- main
 def build(project):
     tl = json.load(open(os.path.join(project, 'timeline.json')))
@@ -187,12 +225,18 @@ def build(project):
     for k, v in ainfo.items():
         if isinstance(v, list) and len(v) == 3 and all(isinstance(x, (int, float)) for x in v):
             anchors[k] = v
-    if tl.get('style') == 'clay':
-        if tl.get('tonemap', 'standard') == 'agx':
+    if tl.get('style') in ('clay', 'smooth'):
+        if tl.get('tonemap', 'agx' if tl.get('style') == 'smooth' else 'standard') == 'agx':
             sc.view_settings.view_transform = 'AgX'
+            for lk in (tl.get('look_transform', 'AgX - Punchy'), 'Punchy', 'AgX - Medium High Contrast'):
+                try:
+                    sc.view_settings.look = lk
+                    break
+                except Exception:
+                    pass
         else:
             sc.view_settings.view_transform = 'Standard'
-        sc.view_settings.exposure = tl.get('exposure', -0.35)
+        sc.view_settings.exposure = tl.get('exposure', -0.35 if tl.get('style') == 'clay' else 0.0)
     if 'look' in tl:
         materials.set_look(**tl['look'])
     cast_col = bpy.data.collections.new('cast')
@@ -223,6 +267,7 @@ def build(project):
         rig, body, face = character.build_character(name, spec, cast_col)
         rigs[name] = rig
         perfs[name] = Performer(name, rig, sc)
+        perfs[name].auto_blink = spec.get('autoblink', True)
         st = spec.get('start', {})
         if 'seat' in st:
             pos, fac = seat_of(st['seat'])
@@ -412,6 +457,7 @@ def build(project):
               'note_frames': {n: [x for x in p.notes] for n, p in perfs.items()}}
     os.makedirs(os.path.join(project, 'build'), exist_ok=True)
     json.dump(report, open(os.path.join(project, 'build', 'build_report.json'), 'w'), indent=1)
+    apply_light_cues(tl, fps)
     sc.frame_set(1)
     out = os.path.join(project, 'build', 'scene.blend')
     bpy.ops.wm.save_as_mainfile(filepath=out)

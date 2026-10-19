@@ -210,3 +210,24 @@ Copy the files into `<project>/assets/` and reference them relative to the proje
 ## Audio additions
 SFX `knock`, `rattle`, `beep`. `{"auto": "steps", "char": "pilot", "type": "step"}` places a
 footstep at every plant. Ambience `aircraft_cabin`. Music `tension`.
+
+
+---------------------------------------------------------------------------------------------------
+# Toon characters, presets, light cues (v0.3)
+Working example: the user's `animation_projects/light_switch_doc` (20 s mock nature doc starring Timmy).
+
+* **Presets:** `"cast": {"timmy": {"preset": "timmy", "start": {"pos": [x, y], "facing": -100}}}` loads
+  `engine/characters/timmy.json`. Keys you add override the preset.
+* **`body: "toon"`:** `skin, top, legs, shoes, features, brow_color, head_r, scale`. Face props
+  (`expr`, `blink`, `look`, lip-sync) drive dot eyes (squash for blink/happy/squint/wide, slide for look),
+  bar brows and mouth.
+* **`point` verb:** `{"do": "point", "t", "dur", "side": "R", "amount": 1}` keeps the index straight while
+  `grip` curls the others.
+* **Set `toon_room`:** side wall plane x = `side_x` (-1.0), back wall y = `back_y` (1.6), night window at
+  `window_x`. Lights tagged `night` (moon, fill) are the inverse of the room lights. Params `moon`, `night_fill`.
+* **Props:** `switch_plate`, `switch_lever` (built DOWN, origin = pivot; `swing` axis X angle -70 = up,
+  +70 = back down), `ceiling_lamp` (`power`, `light_color`; its emissive bulb + point light follow the light cues).
+* **`light_cues`:** `[[t, level], ...]` stepped room lighting (0 = off, 1 = on). Light energy, world
+  strength and `lamp_emit` materials follow it. `light_dim` / `world_dim` set the off floor.
+* **Audio:** SFX `switch`, `lamp_on`, `gasp`; music `nature_doc` (playful pizzicato);
+  `"music_mute": [[t0, t1], ...]` cuts the music for comic silences.

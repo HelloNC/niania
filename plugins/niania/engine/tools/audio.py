@@ -161,6 +161,28 @@ def sfx(kind, seed=0):
         n = int(0.15 * SR)
         t = np.arange(n) / SR
         return np.sin(2 * np.pi * (300 + 900 * np.exp(-t / 0.01)) * t) * np.exp(-t / 0.03) * 0.5
+    if kind == 'switch':                      # wall light switch: plastic snap + body thunk
+        n = int(0.3 * SR)
+        t = np.arange(n) / SR
+        x = fft_filter(r.normal(0, 1, n), 2500, 10000) * np.exp(-t / 0.0025) * 0.9
+        x += np.sin(2 * np.pi * 1450 * t) * np.exp(-t / 0.012) * 0.35
+        x += np.sin(2 * np.pi * 180 * t) * np.exp(-t / 0.025) * 0.5
+        i1 = int(0.018 * SR)
+        x[i1:] += fft_filter(r.normal(0, 1, n - i1), 1800, 8000) * np.exp(-np.arange(n - i1) / SR / 0.002) * 0.5
+        return x * 0.8
+    if kind == 'lamp_on':                     # bulb comes on: soft 'tink' + short mains hum swell
+        n = int(1.2 * SR)
+        t = np.arange(n) / SR
+        x = np.sin(2 * np.pi * 2600 * t) * np.exp(-t / 0.05) * 0.15
+        hum = sum(a * np.sin(2 * np.pi * f * t) for f, a in ((100, 0.5), (200, 0.3), (300, 0.15)))
+        x += hum * np.clip(t / 0.05, 0, 1) * np.exp(-t / 0.35) * 0.18
+        return x
+    if kind == 'gasp':                        # comic rising 'boing' sting for a shocked reaction
+        n = int(0.45 * SR)
+        t = np.arange(n) / SR
+        f = 260 + 520 * (t / 0.45) ** 0.6
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        return np.sin(ph) * np.exp(-t / 0.2) * np.clip(t / 0.01, 0, 1) * 0.3
     raise ValueError('unknown sfx ' + kind)
 
 
@@ -202,6 +224,30 @@ def music(kind, dur, seed=9):
         x += 0.05 * np.sin(2 * np.pi * 440 * t) * np.exp(-((t % 3.68) / 0.4)) * (t > 3)
         x = fft_filter(x, 35, 900)
         return x / max(1e-6, np.abs(x).max()) * 0.22
+    if kind == 'nature_doc':                  # playful pizzicato walk (sneaky documentary) over a soft string pad
+        x = np.zeros(n)
+        bpm = 112.0
+        beat = 60.0 / bpm
+        mel = [57, None, 60, None, 64, 62, 60, None, 57, None, 55, None, 57, 60, 59, None]
+        bass = [45, 45, 52, 52, 43, 43, 50, 50]
+        for i in range(int(dur / (beat / 2)) + 1):
+            t0 = i * beat / 2
+            m = mel[i % len(mel)]
+            for mm, a, dec in ((m, 0.35, 0.16), (bass[(i // 4) % len(bass)] if i % 2 == 0 else None, 0.5, 0.22)):
+                if mm is None:
+                    continue
+                f = 440 * 2 ** ((mm - 69) / 12)
+                i0 = int(t0 * SR)
+                m_ = min(n - i0, int(0.6 * SR))
+                if m_ <= 0:
+                    continue
+                tt = np.arange(m_) / SR
+                x[i0:i0 + m_] += a * (np.sin(2 * np.pi * f * tt) + 0.35 * np.sin(4 * np.pi * f * tt)) * np.exp(-tt / dec) * np.clip(tt / 0.003, 0, 1)
+        for mm in (57, 60, 64):
+            f = 440 * 2 ** ((mm - 69) / 12)
+            x += 0.05 * np.sin(2 * np.pi * f * t) * (0.6 + 0.4 * np.sin(2 * np.pi * t / 7.0))
+        x = fft_filter(x, 50, 4000)
+        return x / max(1e-6, np.abs(x).max()) * 0.2
     chords = [[53, 57, 60, 64], [57, 60, 64, 67], [50, 57, 60, 64, 69], [46, 53, 57, 62]]
     bar = 3.75
     x = np.zeros(n)
@@ -372,6 +418,11 @@ def cmd_mix(project):
         cut = lambda t: 300 + 15000 * min(1.0, speed(t)) ** 1.5
         amb = time_varying_lowpass(amb, cut)
         mus = time_varying_lowpass(mus, lambda t: 500 + 15000 * min(1.0, speed(t)) ** 1.5)
+    # music gaps ("music_mute": [[t0, t1], ...]) for comic silences; 40 ms fades
+    for t0, t1 in au.get('music_mute', []):
+        tt = np.arange(n) / SR
+        g = np.clip((t0 - tt) / 0.04, 0, 1) + np.clip((tt - t1) / 0.04, 0, 1)
+        mus = mus * np.clip(g, 0, 1)
     # duck music under voice
     venv = np.convolve(np.abs(voice), np.ones(4800) / 4800, mode='same')
     duck = 1 - 0.55 * np.clip(venv / (venv.max() * 0.3 + 1e-9), 0, 1)

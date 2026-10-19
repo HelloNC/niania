@@ -105,11 +105,47 @@ def set_style(mode):
     STYLE['mode'] = mode
 
 
-def clay(name, color='#e9e9ea', rough=0.62, emit=0.0, spec=0.25):
-    """Physically lit matte material (soft shadows + AO) for the clay/reconstruction look."""
+def plastic(name, color, rough=0.3, coat=0.4, spec=0.5, emit=0.0):
+    """Smooth glossy 'animated feature' material (Cinema 4D / Redshift look): soft specular + clear coat."""
     m = bpy.data.materials.get(name)
     if m:
         return m
+    m = bpy.data.materials.new(name)
+    m.use_nodes = True
+    nt = m.node_tree
+    nt.nodes.clear()
+    out = nt.nodes.new('ShaderNodeOutputMaterial')
+    b = nt.nodes.new('ShaderNodeBsdfPrincipled')
+    b.inputs['Base Color'].default_value = srgb(color)
+    b.inputs['Roughness'].default_value = rough
+    for k in ('Specular IOR Level', 'Specular'):
+        if k in b.inputs:
+            b.inputs[k].default_value = spec
+            break
+    for k in ('Coat Weight', 'Clearcoat'):
+        if k in b.inputs:
+            b.inputs[k].default_value = coat
+            break
+    for k in ('Coat Roughness', 'Clearcoat Roughness'):
+        if k in b.inputs:
+            b.inputs[k].default_value = 0.15
+            break
+    if emit > 0:
+        b.inputs['Emission Color'].default_value = srgb(color)
+        b.inputs['Emission Strength'].default_value = emit
+    nt.links.new(b.outputs[0], out.inputs['Surface'])
+    m.diffuse_color = srgb(color)
+    return m
+
+
+def clay(name, color='#e9e9ea', rough=0.62, emit=0.0, spec=0.25):
+    """Physically lit matte material (soft shadows + AO) for the clay/reconstruction look.
+    In 'smooth' style the same call returns glossy plastic in that colour."""
+    m = bpy.data.materials.get(name)
+    if m:
+        return m
+    if STYLE['mode'] == 'smooth':
+        return plastic(name, color, rough=min(0.45, rough * 0.5 + 0.1), emit=emit)
     m = bpy.data.materials.new(name)
     m.use_nodes = True
     nt = m.node_tree
@@ -132,6 +168,8 @@ def clay(name, color='#e9e9ea', rough=0.62, emit=0.0, spec=0.25):
 
 def subject(name, color, emit=0.12):
     """Saturated solid colour that marks the subject of a reconstruction (red/blue mannequin)."""
+    if STYLE['mode'] == 'smooth':
+        return plastic(name, color)
     return clay(name, color, rough=0.42, emit=emit, spec=0.35)
 
 
@@ -207,8 +245,8 @@ def cel(name, color, rim=1.0, shade=1.0, emit=0.0, bands='soft', gloss=0.0):
     m = bpy.data.materials.get(name)
     if m:
         return m
-    if STYLE['mode'] == 'clay':
-        return clay(name, color, emit=emit * 0.5)
+    if STYLE['mode'] in ('clay', 'smooth'):
+        return clay(name, color, emit=emit * 0.5 if STYLE['mode'] == 'clay' else 0.0)
     look = look_group()
     m = bpy.data.materials.new(name)
     m.use_nodes = True
