@@ -1,0 +1,17 @@
+{
+  "name": "niania-2d",
+  "version": "0.1.0",
+  "description": "niania-2d - code-only video: one premise (plus optional character reference sheets) in, finished MP4 out. 2D cel-shaded characters drawn with Python/Pillow, lip-synced local narration and dialogue (Kokoro), procedural sound, captions and graphics, ffmpeg export. No Blender, no API keys.",
+  "author": {
+    "name": "NC"
+  },
+  "keywords": [
+    "animation",
+    "2d",
+    "video",
+    "code",
+    "tts",
+    "captions"
+  ],
+  "license": "MIT"
+}

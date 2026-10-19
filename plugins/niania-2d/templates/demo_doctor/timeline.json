@@ -1,0 +1,373 @@
+{
+ "title": "Night Shift Tip",
+ "premise": "A tired but kind doctor shares one tip about night shifts over coffee.",
+ "fps": 30,
+ "resolution": [
+  1080,
+  1920
+ ],
+ "duration": 14.0,
+ "style": {
+  "grade": "cool",
+  "grain": 0.025,
+  "vignette": 0.3,
+  "bloom": 0.25
+ },
+ "fade_out": 0.6,
+ "cast": {
+  "doc": {
+   "voice": "am_michael",
+   "skin": "#f6dabd",
+   "skin_shade": "#e8bf9c",
+   "line": "#1b2236",
+   "hair": {
+    "style": "messy",
+    "color": "#273348",
+    "highlight": "#3e4d72",
+    "seed": 7,
+    "part": "left"
+   },
+   "eyes": {
+    "iris": "#4f6886",
+    "shape": "tired"
+   },
+   "glasses": {
+    "style": "rect",
+    "color": "#1d2540"
+   },
+   "facial_hair": "stubble",
+   "top": {
+    "style": "vneck",
+    "color": "#6aa79e"
+   },
+   "outer": {
+    "style": "labcoat",
+    "color": "#f4f2ec"
+   },
+   "accessories": [
+    "stethoscope",
+    "pen_pocket"
+   ],
+   "stethoscope_color": "#d9463c",
+   "mug_color": "#e05a48"
+  }
+ },
+ "shots": [
+  {
+   "name": "s1_hello",
+   "start": 0.0,
+   "end": 4.6,
+   "in": "dip",
+   "bg": {
+    "type": "room",
+    "wall": "#2f4650",
+    "wall2": "#1d2c33",
+    "floor": "#1a1d1f",
+    "window_color": "#1c3550",
+    "lights": [
+     "#ffc88c",
+     "#6ec8e6"
+    ],
+    "count": 18,
+    "band": [
+     0.18,
+     0.46
+    ]
+   },
+   "cam": {
+    "zoom": [
+     1.0,
+     1.06
+    ]
+   },
+   "chars": [
+    {
+     "id": "doc",
+     "x": 0.5,
+     "y": 0.66,
+     "scale": 1.45
+    }
+   ]
+  },
+  {
+   "name": "s2_tip",
+   "start": 4.6,
+   "end": 10.2,
+   "in": "whip",
+   "bg": {
+    "type": "bokeh",
+    "inner": "#1d3a44",
+    "outer": "#071014"
+   },
+   "cam": {
+    "zoom": [
+     1.0,
+     1.03
+    ]
+   },
+   "chars": [
+    {
+     "id": "doc",
+     "x": 0.42,
+     "y": 0.72,
+     "scale": 1.05
+    }
+   ],
+   "graphics": [
+    {
+     "type": "panel",
+     "t": [
+      5.0,
+      10.1
+     ],
+     "pos": [
+      0.5,
+      0.22
+     ],
+     "w": 0.88,
+     "h": 0.2,
+     "size": 0.034,
+     "title": "NIGHT SHIFT TIP",
+     "items": [
+      "Bright light at shift start",
+      "Dim light before sleep"
+     ],
+     "stagger": 0.9,
+     "accent": "#5fe3c8"
+    }
+   ]
+  },
+  {
+   "name": "s3_smile",
+   "start": 10.2,
+   "end": 14.0,
+   "in": "flash",
+   "bg": {
+    "type": "room",
+    "wall": "#2f4650",
+    "wall2": "#1d2c33",
+    "floor": "#1a1d1f",
+    "window_color": "#e7b98a"
+   },
+   "cam": {
+    "zoom": [
+     1.08,
+     1.0
+    ]
+   },
+   "chars": [
+    {
+     "id": "doc",
+     "x": 0.5,
+     "y": 0.66,
+     "scale": 1.45
+    }
+   ],
+   "graphics": [
+    {
+     "type": "lower_third",
+     "t": [
+      10.6,
+      13.6
+     ],
+     "pos": [
+      0.07,
+      0.1
+     ],
+     "size": 0.026,
+     "title": "DR. ON CALL",
+     "sub": "ILLUSTRATIVE CHARACTER",
+     "accent": "#d9463c"
+    }
+   ]
+  }
+ ],
+ "performance": [
+  {
+   "char": "doc",
+   "t": 0.0,
+   "do": "expr",
+   "set": "exhausted",
+   "dur": 0.01
+  },
+  {
+   "char": "doc",
+   "t": 0.0,
+   "do": "gesture",
+   "side": "R",
+   "pose": "hold_mug",
+   "dur": 0.01
+  },
+  {
+   "char": "doc",
+   "t": 0.8,
+   "do": "expr",
+   "set": "smile",
+   "dur": 0.4
+  },
+  {
+   "char": "doc",
+   "t": 0.9,
+   "do": "tilt",
+   "deg": 4
+  },
+  {
+   "char": "doc",
+   "t": 2.6,
+   "do": "turn",
+   "yaw": 0.25,
+   "dur": 0.5
+  },
+  {
+   "char": "doc",
+   "t": 3.8,
+   "do": "turn",
+   "yaw": 0.0,
+   "dur": 0.4
+  },
+  {
+   "char": "doc",
+   "t": 4.6,
+   "do": "gesture",
+   "side": "R",
+   "pose": "rest",
+   "dur": 0.01
+  },
+  {
+   "char": "doc",
+   "t": 4.7,
+   "do": "expr",
+   "set": "focused",
+   "dur": 0.3
+  },
+  {
+   "char": "doc",
+   "t": 5.0,
+   "do": "gesture",
+   "side": "R",
+   "pose": "open_palm",
+   "dur": 0.45
+  },
+  {
+   "char": "doc",
+   "t": 5.4,
+   "do": "look",
+   "x": 0.5,
+   "y": -0.8
+  },
+  {
+   "char": "doc",
+   "t": 6.2,
+   "do": "look",
+   "x": 0.0,
+   "y": 0.0
+  },
+  {
+   "char": "doc",
+   "t": 7.6,
+   "do": "nod",
+   "n": 1
+  },
+  {
+   "char": "doc",
+   "t": 8.4,
+   "do": "gesture",
+   "side": "R",
+   "pose": "point",
+   "dur": 0.4
+  },
+  {
+   "char": "doc",
+   "t": 9.6,
+   "do": "gesture",
+   "side": "R",
+   "pose": "rest",
+   "dur": 0.5
+  },
+  {
+   "char": "doc",
+   "t": 10.2,
+   "do": "expr",
+   "set": "happy",
+   "dur": 0.01
+  },
+  {
+   "char": "doc",
+   "t": 10.2,
+   "do": "gesture",
+   "side": "R",
+   "pose": "wave",
+   "dur": 0.4,
+   "hold": 1.6
+  },
+  {
+   "char": "doc",
+   "t": 12.3,
+   "do": "gesture",
+   "side": "R",
+   "pose": "rest",
+   "dur": 0.5
+  },
+  {
+   "char": "doc",
+   "t": 12.4,
+   "do": "expr",
+   "set": "smile",
+   "dur": 0.4
+  }
+ ],
+ "graphics": [],
+ "captions": {
+  "on": true,
+  "size": 0.034,
+  "y": 0.86,
+  "box": true,
+  "box_alpha": 0.55,
+  "highlight": [
+   "light",
+   "sleep"
+  ]
+ },
+ "audio": {
+  "narrator_voice": "bm_george",
+  "narration": [],
+  "dialogue": [
+   {
+    "t": 0.9,
+    "char": "doc",
+    "text": "Hey. Long night? Same here."
+   },
+   {
+    "t": 5.1,
+    "char": "doc",
+    "text": "My tip. Bright light when your shift starts, and dim light before you sleep."
+   },
+   {
+    "t": 10.9,
+    "char": "doc",
+    "text": "Take care of yourself, okay?"
+   }
+  ],
+  "sfx": [
+   {
+    "t": 4.45,
+    "type": "whoosh",
+    "gain": 0.3
+   },
+   {
+    "t": 5.0,
+    "type": "pop",
+    "gain": 0.3
+   },
+   {
+    "t": 10.2,
+    "type": "chime",
+    "gain": 0.25
+   }
+  ],
+  "ambience": "room",
+  "music": "warm_pad",
+  "lufs": -14.0,
+  "duck_db": -12.0
+ }
+}

@@ -13,6 +13,16 @@
         "name": "NC"
       },
       "category": "design"
+    },
+    {
+      "name": "niania-2d",
+      "source": "./plugins/niania-2d",
+      "description": "Code-only premise-to-MP4: 2D cel characters from reference sheets or prompts, drawn with Python (no Blender, no API keys).",
+      "version": "0.1.0",
+      "author": {
+        "name": "NC"
+      },
+      "category": "design"
     }
   ]
 }
