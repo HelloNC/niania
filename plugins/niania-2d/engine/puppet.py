@@ -313,6 +313,85 @@ def draw_face(c, L, st):
         c.poly(F([(-10, -246), (0, -250), (10, -246)]), L.glass, 4.0)
 
 
+# ------------------------------------------------------------------ ball head ("head": {"shape": "ball"})
+BALL_R = 250
+BALL_CY = -330
+
+
+def is_ball(L):
+    return (L.sp.get('head') or {}).get('shape') == 'ball'
+
+
+def draw_ball_face(c, L, st):
+    """big sphere head, no ears/nose, dot eyes, bar brows (designer-toy style)."""
+    yaw = st.get('yaw', 0.0)
+    e = st['expr']
+    R = (L.sp.get('head') or {}).get('r', BALL_R)
+    cy = -110 - R * 0.88
+
+    def fx(x):
+        return x * (1 - 0.18 * abs(yaw)) + yaw * 64
+    # sphere: shade disc, lit disc offset to the key light (screen-left/top), soft highlight, outline
+    c.shape(ellipse_pts(0, cy, R, R, 72), L.skin_sh, None)
+    c.shape(ellipse_pts(-16, cy - 14, R * 0.92, R * 0.93, 72), L.skin, None)
+    c.shape(ellipse_pts(-70, cy - 90, R * 0.34, R * 0.26, 36), mixc(L.skin, (255, 255, 255), 0.35) + (110,), None)
+    c.shape(ellipse_pts(0, cy, R, R, 72), None, L.line, 3.0)
+    # eyes: solid dark ovals that squash with the lid
+    base = max(0.0, e['lid'] - 0.12) / 0.88
+    lid = min(1.0, base + st.get('blink', 0.0) * (1 - base))
+    lx, ly = st.get('look', (0.0, 0.0))
+    for sx in (-1, 1):
+        ex, ey = sx * 70 + lx * 10, cy + 40 + ly * 6
+        sq = 1 - 0.3 * max(0.0, sx * yaw)
+        hh = 21 * (1 + 0.3 * e['wide']) * (1 - lid)
+        if lid > 0.8:
+            arc = 7 if e['smile'] > 0.5 else -3
+            path = bez((ex - 16, ey), (ex - 6, ey - arc), (ex + 6, ey - arc), (ex + 16, ey), 8)
+            c.poly([(fx(ex + (x - ex) * sq), y) for x, y in path], L.line, 5.0)
+        else:
+            c.shape([(fx(ex + (x - ex) * sq), y) for x, y in ellipse_pts(ex, ey, 14, max(3.0, hh * 1.1), 24)], L.line, None)
+            c.dot(fx(ex - 4 * sq), ey - hh * 0.45, 2.4, (255, 255, 255, 150))
+        # thick rounded bar brows
+        bi, bo, bu = e['brow_in'], e['brow_out'], e['brow_up']
+        p_in = (sx * 34, cy - 34 - 12 * bi - 14 * bu)
+        p_out = (sx * 112, cy - 40 - 8 * bo - 14 * bu)
+        mid = ((p_in[0] + p_out[0]) / 2, (p_in[1] + p_out[1]) / 2 - 6)
+        path = bez(p_in, mid, mid, p_out, 10)
+        pts = [(fx(sx * 72 + (x - sx * 72) * sq), y) for x, y in path]
+        c.poly(pts, L.brow, 19)
+        for q in (pts[0], pts[-1]):
+            c.dot(q[0], q[1], 9.5, L.brow)
+    # mouth: tiny line / small dark "o"
+    op = max(st.get('mouth', 0.0), e['open'])
+    sm = e['smile']
+    my = cy + 118
+    mx = yaw * 6 + lx * 4
+    if op < 0.08:
+        w = 15
+        pts = bez((-w + mx, my - 5 * sm), (-5 + mx, my + 4 * sm), (5 + mx, my + 4 * sm), (w + mx, my - 5 * sm), 10)
+        c.poly([(fx(x), y) for x, y in pts], L.line, 3.6)
+    else:
+        w = 12 - 4 * e['oshape'] + 4 * (1 - e['oshape']) * op
+        h = 4 + 15 * op
+        c.shape([(fx(x), y) for x, y in ellipse_pts(mx, my + h * 0.3, w, h, 24)], (58, 26, 28), L.line, 2.2)
+
+
+def draw_funnel_back(c, L):
+    """inside of the high stand collar (behind the head)."""
+    inner = shade(L.top, 0.45)
+    c.shape([(-150, -150), (150, -150), (120, 0), (-120, 0)], inner, L.line, 2.6)
+
+
+def draw_funnel_front(c, L, st):
+    br = st.get('breath', 0.0)
+    left = [(-170, 26 + br), (-178, -150), (-150, -146), (-70, -118), (-16, -96), (-8, -30), (-70, 10 + br)]
+    for sx in (-1, 1):
+        pts = [(-sx * x, y) for x, y in left] if sx > 0 else left
+        c.shape(pts, L.top if sx < 0 else L.top_sh, L.line, 2.8)
+        c.poly([(sx * 140, -120), (sx * 132, 0)], shade(L.top, 0.72), 4)
+    c.shape([(-14, -86), (0, -100), (14, -86), (8, -30), (0, -18), (-8, -30)], shade(L.top, 0.35), L.line, 2.0)
+
+
 # ------------------------------------------------------------------ body
 def draw_body(c, L, st):
     sp = L.sp
@@ -325,9 +404,12 @@ def draw_body(c, L, st):
         c.shape(bez((-150, 30), (-160, -120), (160, -120), (150, 30), 16), L.top_sh, L.line, 2.6)
     if outer in ('labcoat', 'jacket', 'blazer'):
         c.shape([(-78, -20), (-60, -62), (60, -62), (78, -20)], L.outer_sh, L.line, 2.4)
-    # neck
-    c.shape([(-46, -140), (46, -140), (54, 4), (-54, 4)], L.skin, L.line, 2.4)
-    c.shape([(-46, -132), (46, -132), (40, -98), (0, -84), (-40, -98)], L.skin_sh, None)
+    if top_style == 'funnel':
+        draw_funnel_back(c, L)
+    if not is_ball(L):
+        # neck
+        c.shape([(-46, -140), (46, -140), (54, 4), (-54, 4)], L.skin, L.line, 2.4)
+        c.shape([(-46, -132), (46, -132), (40, -98), (0, -84), (-40, -98)], L.skin_sh, None)
     # torso
     base, base_sh = (L.outer, L.outer_sh) if outer != 'none' else (L.top, L.top_sh)
     torso = bez((-62, -18 + br), (-150, 8), (-210, 28 + br), (-232, 70 + br), 10) + \
@@ -426,6 +508,9 @@ def draw_mug(c, L, wr):
 
 def draw_arm(c, L, sx, el, wr, hand, behind=False):
     col, col_sh = L.sleeve
+    short = L.sp['top'].get('sleeves') == 'short' and L.sp['outer']['style'] == 'none'
+    if short:
+        col, col_sh = L.skin, L.skin_sh
     br = 0
     sh = (sx * 226, 96 + br)
     el = (sx * el[0], el[1])
@@ -438,6 +523,14 @@ def draw_arm(c, L, sx, el, wr, hand, behind=False):
     ox = sx * 30
     c.poly([(sh[0] + ox, sh[1] + 30), (el[0] + ox, el[1]), (wr[0] + ox * 0.8, wr[1])], col_sh, 9)
     ang = math.atan2(wr[1] - el[1], wr[0] - el[0])
+    if short:
+        mid = (sh[0] + (el[0] - sh[0]) * 0.5, sh[1] + (el[1] - sh[1]) * 0.5)
+        c.shape(ellipse_pts(sh[0] - sx * 6, sh[1] + 6, 62, 56), L.top, L.line, 3)
+        c.shape(strip([sh, mid], 140, 176), L.top, L.line, 3)
+        c.shape(ellipse_pts(sh[0] - sx * 6, sh[1] + 6, 59, 53), L.top, None)
+        c.poly([(sh[0] + sx * 40, sh[1] + 20), (mid[0] + sx * 44, mid[1])], L.top_sh, 14)
+        draw_hand(c, L, wr, ang, hand, 1.0) if hand != 'mug' else draw_mug(c, L, (wr[0] + (0 if sx > 0 else 140), wr[1]))
+        return
     cuff = rot([(wr[0] - 8, wr[1] - 40), (wr[0] + 6, wr[1] - 40), (wr[0] + 6, wr[1] + 40), (wr[0] - 8, wr[1] + 40)],
                ang, wr[0], wr[1])
     c.shape(cuff, col_sh, L.line, 2)
@@ -467,9 +560,14 @@ def draw_character(c, L, st):
         if not raised[s]:
             draw_arm(c, L, sx, el, wr, hand)
     c.xf = hx
-    draw_face(c, L, st)
+    if is_ball(L):
+        draw_ball_face(c, L, st)
+    else:
+        draw_face(c, L, st)
     draw_hair_front(c, L, st)
     c.xf = base_xf
+    if L.sp['top'].get('style') == 'funnel':
+        draw_funnel_front(c, L, st)
     for s, sx in (('L', -1), ('R', 1)):
         el, wr, hand = arms[s]
         if raised[s]:
